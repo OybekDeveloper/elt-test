@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Reviews {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  phone     String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model TopCategory {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @updatedAt
+  categories Category[] @relation("TopCategoryToCategory")
+}
+
+model Category {
+  id                String       @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  image             String
+  createdAt         DateTime     @default(now())
+  updateAt          DateTime     @updatedAt
+  topCategory       TopCategory? @relation("TopCategoryToCategory", fields: [topCategoryId], references: [id])
+  topCategoryId     String?      @db.ObjectId
+  products          Product[]
+  topCategorySortId String?      @db.ObjectId
+}
+
+model Product {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  feature     String
+  price       String
+  brand       String
+  image       String[]
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?   @db.ObjectId
+}
+
+model Sertificate {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model License {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model News {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Partner {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Admin {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Currency {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sum       String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Banner {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  image         String
+  topCategoryId String?  @db.ObjectId
+  categoryId    String?  @db.ObjectId
+  productId     String?  @db.ObjectId
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
+}
+
+model SelectReview {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  reviewId  String?  @db.ObjectId
+  name      String
+  phone     String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Background {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Contacts {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  company_name    String?
+  phone1          String?
+  phone2          String?
+  work_hours      String?
+  email           String?
+  address         String?
+  telegram        String?
+  telegram_bot    String?
+  facebook        String?
+  instagram       String?
+  youtube         String?
+  footer_info     String?
+  experience_info String?
+  more_call_info  String?
+  createdAt       DateTime @default(now())
+  updateAt        DateTime @updatedAt
+}
+
+model BannerSort {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  uniqueId      Int?
+  bannerId      String?  @db.ObjectId
+  image         String
+  topCategoryId String?  @db.ObjectId
+  categoryId    String?  @db.ObjectId
+  productId     String?  @db.ObjectId
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
+}
+
+model TopCategorySort {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  topCategoryId String?  @db.ObjectId
+  uniqueId      Int?
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
+}
+
+model CategorySort {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  uniqueId          Int
+  categoryId        String   @db.ObjectId
+  topCategorySortId String   @db.ObjectId
+  name              String
+  createdAt         DateTime @default(now())
+  updateAt          DateTime @updatedAt
+}
+model CategorySortTest {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  uniqueId          Int
+  categoryId        String   @db.ObjectId
+  topCategorySortId String   @db.ObjectId
+  name              String
+  createdAt         DateTime @default(now())
+  updateAt          DateTime @updatedAt
+}
